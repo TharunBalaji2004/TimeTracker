@@ -42,9 +42,20 @@ class HomeFragment : Fragment() {
     private fun bindObservers() {
         quoteViewModel.quotesLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is NetworkResult.Success -> Log.d("QUOTES API", it.data.toString())
-                is NetworkResult.Error -> Log.e("QUOTES API", "Error occurred")
-                is NetworkResult.Loading -> Log.d("QUOTES API", "Quote Loading")
+                is NetworkResult.Success -> {
+                    Log.d("QUOTES API", it.data!!.toString())
+                    binding.apply {
+                        tvQuotedesc.text = it.data.content
+                        tvQuoteauthor.text = getString(R.string.custom_quote_author, it.data.author)
+                    }
+                }
+                is NetworkResult.Error, is NetworkResult.Loading -> {
+                    Log.e("QUOTES API", "Error occurred")
+                    binding.apply {
+                        tvQuotedesc.text = getString(R.string.default_quote_desc)
+                        tvQuoteauthor.text = getString(R.string.default_quote_author)
+                    }
+                }
             }
         }
     }

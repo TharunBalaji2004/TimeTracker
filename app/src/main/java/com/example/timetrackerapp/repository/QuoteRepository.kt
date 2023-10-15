@@ -13,6 +13,7 @@ class QuoteRepository @Inject constructor(private val quotesAPI: QuotesAPI) {
     val quotesLiveData: LiveData<NetworkResult<QuoteResponse>> = _quotesLiveData
 
     suspend fun getQuote() {
+        _quotesLiveData.postValue(NetworkResult.Loading())
         val response = quotesAPI.getQuote()
 
         if (response.isSuccessful && response.body() != null) {
