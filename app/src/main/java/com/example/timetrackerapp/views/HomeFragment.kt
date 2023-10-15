@@ -45,7 +45,6 @@ class HomeFragment : Fragment() {
 
         binding.fabAdd.setOnClickListener {
             NewTaskSheet().show(childFragmentManager, "newTaskSheet")
-            //findNavController().navigate(R.id.action_homeFragment_to_taskFragment)
         }
     }
 
