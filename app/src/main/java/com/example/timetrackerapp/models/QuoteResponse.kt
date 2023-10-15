@@ -1,7 +1,7 @@
-package com.example.timetrackerapp.api
+package com.example.timetrackerapp.models
 
-data class QuotesData(
-    val _id: String,
+data class QuoteResponse(
+    val id: String,
     val author: String,
     val authorSlug: String,
     val content: String,
