@@ -16,6 +16,7 @@ import com.example.timetrackerapp.api.QuotesAPI
 import com.example.timetrackerapp.databinding.FragmentHomeBinding
 import com.example.timetrackerapp.utils.NetworkResult
 import com.example.timetrackerapp.viewmodels.QuoteViewModel
+import com.example.timetrackerapp.viewmodels.TaskViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val quoteViewModel by viewModels<QuoteViewModel>()
+    private val taskViewModel by viewModels<TaskViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +43,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         quoteViewModel.getQuote()
+        taskViewModel.getAllTasks()
         bindObservers()
 
         binding.fabAdd.setOnClickListener {
@@ -66,6 +69,10 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        taskViewModel.tasksLiveData.observe(viewLifecycleOwner) {
+            Log.d("ROOM DB", it.toString())
         }
     }
 }

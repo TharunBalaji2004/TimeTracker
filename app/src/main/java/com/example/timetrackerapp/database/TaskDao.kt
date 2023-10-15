@@ -10,9 +10,9 @@ import com.example.timetrackerapp.utils.Constants.TASK_TABLE
 interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(taskEntity: TaskEntity)
+    suspend fun insertTask(taskEntity: TaskEntity)
 
     @Query("SELECT * FROM $TASK_TABLE ORDER BY taskId DESC")
-    fun getAllTasks(): MutableList<TaskEntity>
+    suspend fun getAllTasks(): MutableList<TaskEntity>
 
 }
