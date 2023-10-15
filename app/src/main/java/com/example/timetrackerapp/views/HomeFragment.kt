@@ -7,12 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.timetrackerapp.R
 import com.example.timetrackerapp.api.QuotesAPI
 import com.example.timetrackerapp.databinding.FragmentHomeBinding
 import com.example.timetrackerapp.utils.NetworkResult
 import com.example.timetrackerapp.viewmodels.QuoteViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,8 +41,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         quoteViewModel.getQuote()
-
         bindObservers()
+
+        binding.fabAdd.setOnClickListener {
+            NewTaskSheet().show(childFragmentManager, "newTaskSheet")
+            //findNavController().navigate(R.id.action_homeFragment_to_taskFragment)
+        }
     }
 
     private fun bindObservers() {
