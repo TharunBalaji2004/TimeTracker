@@ -11,7 +11,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timetrackerapp.R
+import com.example.timetrackerapp.adapters.TaskAdapter
 import com.example.timetrackerapp.api.QuotesAPI
 import com.example.timetrackerapp.databinding.FragmentHomeBinding
 import com.example.timetrackerapp.utils.NetworkResult
@@ -31,6 +33,9 @@ class HomeFragment : Fragment() {
     private val quoteViewModel by viewModels<QuoteViewModel>()
     private val taskViewModel by viewModels<TaskViewModel>()
 
+    @Inject
+    lateinit var taskAdapter: TaskAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,7 +50,8 @@ class HomeFragment : Fragment() {
         quoteViewModel.getQuote()
         taskViewModel.getAllTasks()
         bindObservers()
-
+        setupTaskList()
+        
         binding.fabAdd.setOnClickListener {
             NewTaskSheet().show(childFragmentManager, "newTaskSheet")
         }
@@ -75,6 +81,21 @@ class HomeFragment : Fragment() {
 
         taskViewModel.tasksLiveData.observe(viewLifecycleOwner) {
             Log.d("ROOM DB", it.toString())
+
+            if (it.isEmpty()) {
+                binding.tvNotasks.visibility = View.VISIBLE
+            } else {
+                binding.tvNotasks.visibility = View.GONE
+                taskAdapter.differ.submitList(it)
+
+            }
+        }
+    }
+
+    private fun setupTaskList() {
+        binding.rvTasks.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = taskAdapter
         }
     }
 }

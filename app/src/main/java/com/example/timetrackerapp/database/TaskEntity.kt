@@ -11,12 +11,12 @@ import java.sql.Time
 @Entity(tableName = TASK_TABLE)
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
-    val taskId: Int,
+    val taskId: Int = 0,
     @ColumnInfo(name = "task_title")
     val taskTitle: String,
     @ColumnInfo(name = "task_desc")
     val taskDesc: String,
     @ColumnInfo(name = "task_time")
     @TypeConverters(TimeTypeConverter::class)
-    val taskTime: Time
+    val taskTime: String
 )
