@@ -61,8 +61,10 @@ class HomeFragment : Fragment() {
                         tvQuoteauthor.text = getString(R.string.custom_quote_author, it.data.author)
                     }
                 }
-                is NetworkResult.Error, is NetworkResult.Loading -> {
-                    Log.e("QUOTES API", "Error occurred")
+                is NetworkResult.Error -> {
+                    Log.e("QUOTES API", it.message.toString())
+                }
+                is NetworkResult.Loading -> {
                     binding.apply {
                         tvQuotedesc.text = getString(R.string.default_quote_desc)
                         tvQuoteauthor.text = getString(R.string.default_quote_author)

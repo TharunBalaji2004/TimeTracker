@@ -14,13 +14,16 @@ class QuoteRepository @Inject constructor(private val quotesAPI: QuotesAPI) {
 
     suspend fun getQuote() {
         _quotesLiveData.postValue(NetworkResult.Loading())
-        val response = quotesAPI.getQuote()
+        try {
+            val response = quotesAPI.getQuote()
 
-        if (response.isSuccessful && response.body() != null) {
-            _quotesLiveData.postValue(NetworkResult.Success(response.body()!!))
-        } else {
-            _quotesLiveData.postValue(NetworkResult.Error("Something went wrong"))
+            if (response.isSuccessful && response.body() != null) {
+                _quotesLiveData.postValue(NetworkResult.Success(response.body()!!))
+            } else {
+                _quotesLiveData.postValue(NetworkResult.Error("Something went wrong"))
+            }
+        } catch (e: Exception) {
+            _quotesLiveData.postValue(NetworkResult.Error(e.message))
         }
     }
-
 }
