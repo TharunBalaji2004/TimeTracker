@@ -1,14 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:circular="http://schemas.android.com/apk/res-auto"
     tools:context=".views.TaskFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TASK FRAGMENT" />
+    <RelativeLayout
+        android:id="@+id/rl_header"
+        android:layout_alignParentTop="true"
+        android:padding="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:tint="?android:textColorPrimary" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/baseline_delete_24" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/rl_header"
+        android:padding="15sp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_tasktitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:textColor="?android:textColorPrimary"
+            android:text="@string/task_title"
+            android:textSize="16sp"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_taskdesc"
+            android:paddingTop="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rubik"
+            android:text="@string/task_desc"
+            android:textSize="14sp">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_tasktimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="bold"
+            android:textSize="45sp"
+            android:text="@string/task_timer" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_play"
+                style="?attr/materialIconButtonFilledStyle"
+                app:icon="@drawable/baseline_play_arrow_24"
+                android:layout_margin="10sp"
+                android:padding="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <Button
+                android:id="@+id/btn_pause"
+                style="?attr/materialIconButtonFilledStyle"
+                app:icon="@drawable/baseline_pause_24"
+                android:visibility="gone"
+                android:layout_margin="10sp"
+                android:padding="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <Button
+                android:id="@+id/btn_stop"
+                style="?attr/materialIconButtonFilledStyle"
+                android:visibility="gone"
+                android:layout_margin="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:icon="@drawable/baseline_stop_24" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,40 +1,35 @@
 package com.example.timetrackerapp.views
 
-import android.net.Network
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timetrackerapp.R
 import com.example.timetrackerapp.adapters.TaskAdapter
-import com.example.timetrackerapp.api.QuotesAPI
+import com.example.timetrackerapp.adapters.TaskItemClickListener
+import com.example.timetrackerapp.database.TaskEntity
 import com.example.timetrackerapp.databinding.FragmentHomeBinding
 import com.example.timetrackerapp.utils.NetworkResult
 import com.example.timetrackerapp.viewmodels.QuoteViewModel
 import com.example.timetrackerapp.viewmodels.TaskViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TaskItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val quoteViewModel by viewModels<QuoteViewModel>()
     private val taskViewModel by viewModels<TaskViewModel>()
+    private lateinit var listener: TaskItemClickListener
 
-    @Inject
-    lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskAdapter: TaskAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,11 +42,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        listener = this
+        taskAdapter = TaskAdapter(listener)
+        setupTaskList()
+
         quoteViewModel.getQuote()
         taskViewModel.getAllTasks()
         bindObservers()
-        setupTaskList()
-        
+
         binding.fabAdd.setOnClickListener {
             NewTaskSheet().show(childFragmentManager, "newTaskSheet")
         }
@@ -97,5 +95,15 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = taskAdapter
         }
+    }
+
+    override fun onTaskListItemClick(view: View, task: TaskEntity) {
+        val bundle = Bundle()
+        bundle.putInt("taskId", task.taskId)
+        bundle.putString("taskTitle", task.taskTitle)
+        bundle.putString("taskDesc", task.taskDesc)
+        bundle.putString("taskTimer", task.taskTime.toString())
+
+        findNavController().navigate(R.id.action_homeFragment_to_taskFragment, bundle)
     }
 }
